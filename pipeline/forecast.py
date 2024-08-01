@@ -241,7 +241,7 @@ def main_forecast():
 
      df_preds = populate_test_data(df_exogenous_features)
 
-     df_preds.to_csv("predictions.csv")
+     df_preds.to_csv(f"predictions-{location_id}.csv")
 
 
 if __name__ == "__main__":

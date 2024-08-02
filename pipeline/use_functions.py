@@ -51,19 +51,19 @@ def get_mp_attrs(region_dir, mp_num):
     
     return mp
 
-def get_all_mps(region_dir, region):
+def get_all_mps(region_dir):
 
     values = []
 
-    region_dir = region_dir
     # mps: measurment points 
     df_mps_path = path.join(region_dir, "messstellen_alle.csv")
     df_mps = pd.read_csv(df_mps_path, sep=";")
+    
     # filter to typ == 'gw' then del typ col
     df_mps = df_mps.query("typ=='gw'")
     del df_mps["typ"]
 
-    df_mps["region"] = region
+    #df_mps["region"] = region
 
     # for every mp in the region get attributes
     # create attrs cols and init with np.nan
@@ -80,14 +80,14 @@ def get_all_mps(region_dir, region):
 
     values.extend(df_mps.values.tolist())
 
-    colnames = ["x", "y", "dbmsnr", "hzbnr01", "region"] + mp_attrs
+    colnames = ["x", "y", "dbmsnr", "hzbnr01"] + mp_attrs
     df_mps_all = pd.DataFrame(values, columns = colnames)
     df_mps_all["x"] = df_mps_all["x"].str.replace(",", ".").astype(float)
     df_mps_all["y"] = df_mps_all["y"].str.replace(",", ".").astype(float)
 
     return df_mps_all
 
-def find_temp_mps_in_radius(region, df_mps_all, temp_mps, hzbnr01, radius):
+def find_temp_mps_in_radius(df_mps_all, temp_mps, hzbnr01, radius):
 
     # get mp coordiantes
     c_x = df_mps_all.query('hzbnr01==@hzbnr01').iloc[0]["x"]
@@ -104,3 +104,13 @@ def find_temp_mps_in_radius(region, df_mps_all, temp_mps, hzbnr01, radius):
     df_temp = df_mps_rds[df_mps_rds["hzbnr01"].isin(temp_mps)]
     
     return df_temp["hzbnr01"].tolist()
+
+
+def smape(A, F):
+    """ Define the function to return the SMAPE value """
+
+    tmp = 2 * np.abs(F - A) / (np.abs(A) + np.abs(F))
+    len_ = np.count_nonzero(~np.isnan(tmp))
+    if len_ == 0 and np.nansum(tmp) == 0: # Deals with a special case
+        return 100
+    return round(100 / len_ * np.nansum(tmp), 3)

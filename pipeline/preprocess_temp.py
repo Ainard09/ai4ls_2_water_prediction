@@ -23,7 +23,7 @@ def csv_find_skiprows(filepath, lookup):
                 
     return skiprows
 
-def process_region_sub_dir(region, region_dir, df_mps, location_id, radius=20000):
+def process_region_gw_temp(region_dir, df_mps, location_id, radius=20000):
 
     val_col_name = "gw-level"
     folder_name = "Grundwasserstand-Monatsmittel"
@@ -31,7 +31,7 @@ def process_region_sub_dir(region, region_dir, df_mps, location_id, radius=20000
     mnth_file_path = path.join(region_dir, "Grundwasserstand-Monatsmittel/" "Grundwasserstand-Monatsmittel-{0}.csv".format(location_id))
     #filename = mnth_file_path.split("/")[-1]
     
-    print("> Processing {} - {}..".format(region, folder_name))
+    print("> Processing {} - {}..".format(location_id, folder_name))
     
     # first know how many rows to skip in pd.read_csv. TO do this will open the file and look for "Werte:"
     lookup = "Werte:"
@@ -41,7 +41,7 @@ def process_region_sub_dir(region, region_dir, df_mps, location_id, radius=20000
     df = pd.read_csv(mnth_file_path, sep=";", header=None, skiprows=skiprows,
                             encoding='unicode_escape')
     
-    # manipulate data splitting values into more possible regressors (e.g. date -> day, month, year)
+    # manipulate data splitting values into more possible regressors (e.g. month, year)
     df.columns = ["date", val_col_name, "empty"]
     del df["empty"] 
     
@@ -86,7 +86,6 @@ def process_region_sub_dir(region, region_dir, df_mps, location_id, radius=20000
     df = pd.concat([df, new_data], ignore_index=True)
 
     # add temperature
-    df_mps_region = df_mps[df_mps["region"]==region]
     region_temp_dir = region_dir + "/Grundwassertemperatur-Monatsmittel" 
     region_temp_filenames = os.listdir(region_temp_dir)
     
@@ -100,7 +99,7 @@ def process_region_sub_dir(region, region_dir, df_mps, location_id, radius=20000
     else:
         # Set 20,000 radius around the measuring point area
         hzhnr01 = int(location_id)
-        rds_temp_loc = find_temp_mps_in_radius(region, df_mps_region, temp_mps, hzhnr01, radius)
+        rds_temp_loc = find_temp_mps_in_radius(df_mps, temp_mps, hzhnr01, radius)
     
         # randomly selecta temperature area
         temp_num_id = str(np.random.choice(rds_temp_loc))

@@ -22,8 +22,8 @@ from os import path
 import argparse
 import re
 import traceback
-from use_functions import get_all_mps
-from preprocess_temp import process_region_sub_dir
+from use_functions import get_all_mps, smape
+from preprocess_temp import process_region_gw_temp
 from recursive_temp_pred import recursive_populate_template
 from add_exogenous import add_exogenous_features
 
@@ -31,8 +31,8 @@ from add_exogenous import add_exogenous_features
 def get_argument():
     parser = argparse.ArgumentParser()
     parser.add_argument('location_id', type=str, help='the geographical location ID')
-    parser.add_argument("region", type=str, help='The name of the region this location ID belongs')
-    parser.add_argument("region_dir", type=str, help='The file directory to the region dataset')
+    #parser.add_argument("region", type=str, help='The name of the region this location ID belongs')
+    parser.add_argument("region_dir", type=str, help='The file directory path to the region dataset')
     
     args = parser.parse_args()
     return args
@@ -70,22 +70,6 @@ def search_space(trial):
       'lags'              : trial.suggest_categorical('lags', lags_grid)
   }
   return search_space
-
-  # Define the function to return the SMAPE value
-def smape(A, F):
-    tmp = 2 * np.abs(F - A) / (np.abs(A) + np.abs(F))
-    len_ = np.count_nonzero(~np.isnan(tmp))
-    if len_ == 0 and np.nansum(tmp) == 0: # Deals with a special case
-        return 100
-    return round(100 / len_ * np.nansum(tmp), 3)
-
-# Define the function to return the SMAPE value
-def smape(A, F):
-    tmp = 2 * np.abs(F - A) / (np.abs(A) + np.abs(F))
-    len_ = np.count_nonzero(~np.isnan(tmp))
-    if len_ == 0 and np.nansum(tmp) == 0: # Deals with a special case
-        return 100
-    return round(100 / len_ * np.nansum(tmp), 3)
 
 def search_hyperparameters(data, end_train, end_valid, exog_features,transformer_exog):
 
@@ -180,7 +164,7 @@ def train_and_predict(data, best_params, actual_data, end_valid, end_train, vali
 
 def populate_test_data(df_exog):
 
-    print("> Start Forecast")
+    print("> Start Training and Forecast")
 
     try:
 
@@ -228,12 +212,12 @@ def main_forecast():
      args = get_argument()
 
      location_id = args.location_id
-     region = args.region
+     ##region = args.region
      region_dir = args.region_dir
 
-     df_mps_all = get_all_mps(region_dir, region)
+     df_mps_all = get_all_mps(region_dir)
 
-     df_temp = process_region_sub_dir(region, region_dir, df_mps_all, location_id, radius=10000)
+     df_temp = process_region_gw_temp(region_dir, df_mps_all, location_id, radius=10000)
 
      df_recursive = recursive_populate_template(df_temp, location_id)
 

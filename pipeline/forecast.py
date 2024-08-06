@@ -1,20 +1,11 @@
 import pandas as pd
-from tqdm import tqdm
 import sklearn
 from sklearn.ensemble import HistGradientBoostingRegressor
-from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import OrdinalEncoder
-from sklearn.preprocessing import FunctionTransformer
-from sklearn.pipeline import make_pipeline
 from sklearn.compose import make_column_transformer
-from sklearn.compose import make_column_selector
-from sklearn.preprocessing import LabelEncoder
-from sklearn.preprocessing import PolynomialFeatures
 import skforecast
 from skforecast.ForecasterAutoreg import ForecasterAutoreg
 from skforecast.model_selection import bayesian_search_forecaster
-from skforecast.model_selection import backtesting_forecaster
-from skforecast.model_selection import select_features
 import matplotlib.pyplot as plt
 import numpy as np
 import os
@@ -31,7 +22,6 @@ from add_exogenous import add_exogenous_features
 def get_argument():
     parser = argparse.ArgumentParser()
     parser.add_argument('location_id', type=str, help='the geographical location ID')
-    #parser.add_argument("region", type=str, help='The name of the region this location ID belongs')
     parser.add_argument("region_dir", type=str, help='The file directory path to the region dataset')
     
     args = parser.parse_args()
@@ -212,7 +202,6 @@ def main_forecast():
      args = get_argument()
 
      location_id = args.location_id
-     ##region = args.region
      region_dir = args.region_dir
 
      df_mps_all = get_all_mps(region_dir)

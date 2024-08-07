@@ -1,17 +1,10 @@
 import pandas as pd
-from tqdm import tqdm
 from sklearn.ensemble import HistGradientBoostingRegressor
 import skforecast
-from sklearn.feature_selection import RFECV
 from skforecast.ForecasterAutoreg import ForecasterAutoreg
 from skforecast.model_selection import bayesian_search_forecaster
 from skforecast.model_selection import backtesting_forecaster
 from skforecast.model_selection import select_features
-import matplotlib.pyplot as plt
-import numpy as np
-import os
-from os import path
-import shutil
 import re
 import traceback
 

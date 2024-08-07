@@ -2,13 +2,13 @@
 
 ### Dataset and File
 
-Have all the 9 regions (if your choice is to work with a single or selected regions, please proceeds with the same step) datasets in a folder with the corresponding sub-folders. These are the required files for each region:
+Have all the 9 regions (if your choice is to work with a single or selected regions, please proceeds with the same step) datasets in a **folder** with the corresponding sub-folders. These are the required files for each region:
 
 - **Grundwasserstand-Monatsmittel** - folder
 - **Grundwassertemperatur-Monatsmittel** - folder
 - **messstellen_alle.csv** - file
 
-Have all the py files in the same directory root: `forecast.py`, `add_exogenous.py`, `preprocess_temp.py`, `recursive_temp_pred.py`, `use_functions.py`
+Secondly, have all the py files in the same directory root: `forecast.py`, `add_exogenous.py`, `preprocess_temp.py`, `recursive_temp_pred.py`, `use_functions.py`
 
 ## Dependencies
 

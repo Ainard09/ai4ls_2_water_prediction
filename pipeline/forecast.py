@@ -191,7 +191,7 @@ def populate_test_data(df_exog):
         print(traceback.format_exc())
 
 
-    print("SMAPE value: {}%".format(smape))
+    print(" Train Validation Evaluation SMAPE value: {}%".format(smape))
     print("> FORECAST Done!!!!")
 
 

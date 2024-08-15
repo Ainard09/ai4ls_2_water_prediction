@@ -37,7 +37,7 @@ def search_hyperparameters(data, end_train, end_valid):
   lags = 24
   )
 
-  results_search, frozen_trial = bayesian_search_forecaster(
+  results_search, _ = bayesian_search_forecaster(
   forecaster         = forecaster,
   y                  = data.loc[:end_valid, 'temp'],
   search_space       = search_space,
@@ -90,23 +90,28 @@ def recursive_populate_template(df, hrbnz01):
         df.set_index("date", inplace=True)
         df.index = pd.date_range(start=df.index.min(), end=df.index.max(), freq='MS')
 
-        data = df.copy()
-        df_idx = data.index
-        train_num = int(len(data) * 0.8)
-        valid_num = len(data.loc[:"2021-11-01"])
-        end_train = df_idx[train_num]
-        end_valid = df_idx[valid_num]
-        end_evaluation = df_idx[train_num+36]
-        evaluate_data = data.loc[df_idx[train_num+1]: end_evaluation, "temp"].values
+        if "2021-11-01" not in df.index:
+          print(f"The location ID {hrbnz01} time series is incomplete without ending on 2021-12-01 but it ends on {df.index[-28]}")
+          exit()
+        
+        else:
+          data = df.copy()
+          df_idx = data.index
+          train_num = int(len(data.loc[: df_idx[-28]]) * 0.8)
+          valid_num = len(data.loc[: df_idx[-28]])
+          end_train = df_idx[train_num]
+          end_valid = df_idx[valid_num]
+          end_evaluation = df_idx[train_num+36]
+          evaluate_data = data.loc[df_idx[train_num+1]: end_evaluation, "temp"].values
 
-        # tune for best hyperparamters and evaluate on MAPE metric
-        best_params = search_hyperparameters(data, end_train, end_valid)
+          # tune for best hyperparamters and evaluate on MAPE metric
+          best_params = search_hyperparameters(data, end_train, end_valid)
 
-        # train and make predict into 26 months in the future of the test template
-        df_predictions = recursive_train_predict(data, best_params, evaluate_data, end_valid, end_train, valid_num, train_num, df_idx, hrbnz01)
-        df_predictions["pred"] =  df_predictions["pred"].round(2)
-        df_predictions.reset_index(inplace=True)
-        df_predictions.columns = ["date", hrbnz01]
+          # train and make predict into 26 months in the future of the test template
+          df_predictions = recursive_train_predict(data, best_params, evaluate_data, end_valid, end_train, valid_num, train_num, df_idx, hrbnz01)
+          df_predictions["pred"] =  df_predictions["pred"].round(2)
+          df_predictions.reset_index(inplace=True)
+          df_predictions.columns = ["date", hrbnz01]
       
 
     except Exception as ex:

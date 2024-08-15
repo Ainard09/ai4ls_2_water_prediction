@@ -74,7 +74,7 @@ def search_hyperparameters(data, end_train, end_valid, exog_features,transformer
   )
 
   # search for best parameters
-  results_search, frozen_trial = bayesian_search_forecaster(
+  results_search, _ = bayesian_search_forecaster(
   forecaster         = forecaster,
   y                  = data.loc[:end_valid, 'gw-level'],
   exog               = data.loc[:end_valid, exog_features],
@@ -169,12 +169,13 @@ def populate_test_data(df_exog):
         exog_data = data.drop("gw-level", axis=1)
         exog_features = exog_data.columns
         df_idx = data.index
-        train_num = int(len(data) * 0.8)
-        valid_num = len(data.loc[:"2021-11-01"])
+        train_num = int(len(data.loc[: df_idx[-28]]) * 0.8)
+        valid_num = len(data.loc[: df_idx[-28]])
         end_train = df_idx[train_num]
         end_valid = df_idx[valid_num]
         end_evaluation = df_idx[train_num+26]
         evaluate_data = data.loc[df_idx[train_num+1]: end_evaluation, "gw-level"].values
+
 
 
         # tune for best hyperparamters and evaluate on MAPE metric

@@ -29,7 +29,6 @@ def process_region_gw_temp(region_dir, df_mps, location_id, radius=20000):
     folder_name = "Grundwasserstand-Monatsmittel"
 
     mnth_file_path = path.join(region_dir, "Grundwasserstand-Monatsmittel/" "Grundwasserstand-Monatsmittel-{0}.csv".format(location_id))
-    #filename = mnth_file_path.split("/")[-1]
     
     print("> Processing {} - {}..".format(location_id, folder_name))
     

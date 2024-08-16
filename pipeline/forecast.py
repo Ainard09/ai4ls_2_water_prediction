@@ -6,12 +6,7 @@ from sklearn.compose import make_column_transformer
 import skforecast
 from skforecast.ForecasterAutoreg import ForecasterAutoreg
 from skforecast.model_selection import bayesian_search_forecaster
-import matplotlib.pyplot as plt
-import numpy as np
-import os
-from os import path
 import argparse
-import re
 import traceback
 from use_functions import get_all_mps, smape
 from preprocess_temp import process_region_gw_temp
@@ -117,7 +112,7 @@ def train_and_predict(data, best_params, actual_data, end_valid, end_train, vali
   # make predictions and evalute the model
   predictions = forecaster.predict(
       exog     = data.loc[df_idx[train_num+1]:, exog_features],
-      steps    = 26
+      steps    = 24
   )
   df_preds = pd.DataFrame(predictions)
   preds = df_preds["pred"].values
@@ -173,7 +168,7 @@ def populate_test_data(df_exog):
         valid_num = len(data.loc[: df_idx[-28]])
         end_train = df_idx[train_num]
         end_valid = df_idx[valid_num]
-        end_evaluation = df_idx[train_num+26]
+        end_evaluation = df_idx[train_num+24]
         evaluate_data = data.loc[df_idx[train_num+1]: end_evaluation, "gw-level"].values
 
 

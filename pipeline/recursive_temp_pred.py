@@ -58,7 +58,7 @@ def search_hyperparameters(data, end_train, end_valid):
 
   return best_params
 
-def recursive_train_predict(data, best_params, actual_data, end_valid, end_train, valid_num, train_num, df_idx, hzhnr01):
+def recursive_train_predict(data, best_params, end_valid):
 
   # train for future predictions
   forecaster = ForecasterAutoreg(
@@ -108,7 +108,7 @@ def recursive_populate_template(df, hrbnz01):
           best_params = search_hyperparameters(data, end_train, end_valid)
 
           # train and make predict into 26 months in the future of the test template
-          df_predictions = recursive_train_predict(data, best_params, evaluate_data, end_valid, end_train, valid_num, train_num, df_idx, hrbnz01)
+          df_predictions = recursive_train_predict(data, best_params, end_valid)
           df_predictions["pred"] =  df_predictions["pred"].round(2)
           df_predictions.reset_index(inplace=True)
           df_predictions.columns = ["date", hrbnz01]

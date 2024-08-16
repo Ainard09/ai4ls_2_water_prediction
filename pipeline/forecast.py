@@ -189,6 +189,7 @@ def populate_test_data(df_exog):
 
     print(" Train Validation Evaluation SMAPE value: {}%".format(smape))
     print("> FORECAST Done!!!!")
+    print("=" * 40)
 
 
     return df_predictions

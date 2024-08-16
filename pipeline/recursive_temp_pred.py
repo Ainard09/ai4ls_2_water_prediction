@@ -119,6 +119,7 @@ def recursive_populate_template(df, hrbnz01):
         print(traceback.format_exc())
 
     print("> Recursive Done.....")
+    print("=" * 40)
 
     return df_predictions
 

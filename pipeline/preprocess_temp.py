@@ -135,6 +135,7 @@ def process_region_gw_temp(region_dir, df_mps, location_id, radius=20000):
     df.loc[df.index[-26:], 'temp'] = np.nan
         
     print("\t- Temperature Preprocess Done!")
+    print("=" * 40)
 
     return df
 

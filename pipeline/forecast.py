@@ -42,6 +42,16 @@ transformer_exog = make_column_transformer(
 
 # Regressor hyperparameters search space
 def search_space(trial):
+  """
+  Generate the search space for hyperparameter optimization.
+
+  Parameters:
+      trial (optuna.trial.Trial): The trial object for the current optimization run.
+
+  Returns:
+      dict: The search space dictionary containing the suggested hyperparameters.
+
+  """
 
   # Lags grid
   lags_grid = tuple([12, 24, [1, 2, 3, 4, 7, 9, 24]])
@@ -57,6 +67,21 @@ def search_space(trial):
   return search_space
 
 def search_hyperparameters(data, end_train, end_valid, exog_features,transformer_exog):
+
+  """
+  Searches for the best hyperparameters for a ForecasterAutoreg model.
+
+  Parameters:
+    data (pandas.DataFrame): The dataset to search for hyperparameters.
+    end_train (int): The end index of the training data.
+    end_valid (int): The end index of the validation data.
+    exog_features (list): The list of exogenous feature names.
+    transformer_exog (ColumnTransformer): The transformer for exogenous features.
+
+  Returns:
+    dict: The best hyperparameters found.
+  """
+  
 
   # instantiate a forcaster transformer with categorical features
   forecaster = ForecasterAutoreg(
@@ -92,6 +117,27 @@ def search_hyperparameters(data, end_train, end_valid, exog_features,transformer
   return best_params
 
 def train_and_predict(data, best_params, actual_data, end_valid, end_train, valid_num, train_num, df_idx, exog_features, transformer_exog):
+  """
+  Trains a ForecasterAutoreg model using the provided data and parameters, 
+  makes predictions, evaluates the model using symmetric mean absolute percentage error, 
+  and trains the model again for future predictions.
+
+  Parameters:
+    data (DataFrame): The input data containing the time series and exogenous features.
+    best_params (dict): The best parameters for the HistGradientBoostingRegressor.
+    actual_data (array-like): The actual values for evaluation.
+    end_valid (int): The end index of the validation period.
+    end_train (int): The end index of the training period.
+    valid_num (int): The number of validation periods.
+    train_num (int): The number of training periods.
+    df_idx (array-like): The index of the data.
+    exog_features (list): The list of exogenous features.
+    transformer_exog (Transformer): The transformer for exogenous features.
+
+  Returns:
+    df_preds (DataFrame): The predicted values.
+    smape_value (float): The symmetric mean absolute percentage error.
+  """
 
   # train for evaluation of the model
   forecaster = ForecasterAutoreg(
@@ -148,13 +194,26 @@ def train_and_predict(data, best_params, actual_data, end_valid, end_train, vali
 
 
 def populate_test_data(df_exog):
+    """
+    Populate test data for training and forecasting.
+
+    This function prepares the test data for training and forecasting by converting categorical variables, 
+    setting the date index, and estimating the end train and end validation dates. It then tunes for the best 
+    hyperparameters and evaluates on the MAPE metric. Finally, it trains and makes predictions into the future 
+    and returns the predicted values along with the SMAPE value.
+
+    Parameters:
+        df_exog (pd.DataFrame): The input dataframe containing the exogenous variables.
+
+    Returns:
+        pd.DataFrame: A dataframe containing the predicted values and the SMAPE value.
+    """
 
     print("> Start Training and Forecast")
 
     try:
 
-        df_exog["season"] = df_exog["season"].astype("category")
-        df_exog["weather"] = df_exog["weather"].astype("category")
+        df_exog[["season", "weather"]] = df_exog[["season", "weather"]].astype("category")
         df_exog["date"] = pd.to_datetime(df_exog["date"])
         df_exog.set_index("date", inplace=True)
         df_exog.index = pd.date_range(start=df_exog.index.min(), end=df_exog.index.max(), freq='MS')

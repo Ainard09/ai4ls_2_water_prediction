@@ -12,7 +12,15 @@ import traceback
 
 
 def search_space(trial):
-  """ Regressor hyperparameters search space"""
+  """
+  Defines the search space for hyperparameter optimization.
+
+  Parameters:
+    trial (optuna.trial.Trial): The trial object for the current optimization run.
+
+  Returns:
+    dict: A dictionary containing the suggested hyperparameters for the model.
+  """
 
   # Lags grid
   lags_grid = tuple([12, 24, [1, 2, 3, 4, 7, 9, 24]])
@@ -59,6 +67,17 @@ def search_hyperparameters(data, end_train, end_valid):
   return best_params
 
 def recursive_train_predict(data, best_params, end_valid):
+  """
+  Trains a ForecasterAutoreg model for future temperature predictions and generates predictions.
+
+  Parameters:
+    data (DataFrame): Time series data containing temperature values.
+    best_params (dict): Hyperparameters for the HistGradientBoostingRegressor.
+    end_valid (int): End index for the validation dataset.
+
+  Returns:
+    df_preds (DataFrame): Predicted temperature values for the next 26 steps.
+  """
 
   # train for future predictions
   forecaster = ForecasterAutoreg(
@@ -81,6 +100,23 @@ def recursive_train_predict(data, best_params, end_valid):
 
 
 def recursive_populate_template(df, hrbnz01):
+    """
+    This function populates a template with recursive temperature predictions.
+    
+    It takes a pandas DataFrame `df` and a location ID `hrbnz01` as input, 
+    performs necessary data preprocessing, and trains a ForecasterAutoreg model 
+    to make predictions for the next 26 months.
+    
+    The function returns a DataFrame `df_predictions` containing the predicted 
+    temperature values for the given location.
+    
+    Parameters:
+        df (DataFrame): Time series data containing temperature values.
+        hrbnz01 (str): Location ID.
+    
+    Returns:
+        df_predictions (DataFrame): Predicted temperature values for the next 26 months.
+    """
 
     print("> Start Recursive Forecast for Temperature....")
 

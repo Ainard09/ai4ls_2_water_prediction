@@ -47,6 +47,17 @@ def cyclical_encoded(data, cycle_length):
 
 
 def add_exogenous_features(df, df_recursive_temp, mp_num):
+    """
+    This function generates a dataset with exogenous features by adding various temporal and calendar-based features to the input data.
+
+    Parameters:
+    df (DataFrame): The input dataset containing the date and gw-level columns.
+    df_recursive_temp (DataFrame): A temporary dataset containing recursive temperature results.
+    mp_num (str): The column name for the recursive temperature results.
+
+    Returns:
+    DataFrame: The resulting dataset with added exogenous features.
+    """
 
     print("> Add Exogenous Features")
     

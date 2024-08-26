@@ -12,6 +12,19 @@ from use_functions import find_temp_mps_in_radius
 
 
 def csv_find_skiprows(filepath, lookup):
+    """
+    This function determines the number of rows to skip when reading a CSV file.
+    
+    It searches for a specific string (lookup) in the file and returns the line number 
+    where the string is first found. This line number is used as the number of rows to skip.
+    
+    Parameters:
+    filepath (str): The path to the CSV file.
+    lookup (str): The string to search for in the file.
+    
+    Returns:
+    int: The number of rows to skip when reading the CSV file.
+    """
     skiprows = 0
     # first know how many rows to skip in pd.read_csv. TO do this will open the file and look for "Werte:"
     with open(filepath, encoding='unicode_escape') as f:
@@ -24,6 +37,19 @@ def csv_find_skiprows(filepath, lookup):
     return skiprows
 
 def process_region_gw_temp(region_dir, df_mps, location_id, radius=20000):
+    """
+    Process region groundwater temperature data by loading and processing CSV files,
+    handling missing values, and interpolating temperature data.
+
+    Parameters:
+        region_dir (str): The directory path of the region data.
+        df_mps (pd.DataFrame): A DataFrame containing measuring point data.
+        location_id (str): The ID of the location to process.
+        radius (int): The radius around the measuring point area (default is 20000).
+
+    Returns:
+        pd.DataFrame: A DataFrame containing the processed groundwater temperature data.
+    """
 
     val_col_name = "gw-level"
     folder_name = "Grundwasserstand-Monatsmittel"

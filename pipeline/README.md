@@ -4,9 +4,9 @@
 
 Have all the 9 regions (if you choose to work with a single or selected regions, please proceeds with the same step) datasets in a **folder** with the corresponding sub-folders. These are the required files for each region:
 
-- **Grundwasserstand-Monatsmittel** - folder
-- **Grundwassertemperatur-Monatsmittel** - folder
-- **Stammdaten**
+- **Grundwasserstand-Monatsmittel** - subfolder
+- **Grundwassertemperatur-Monatsmittel** - subfolder
+- **Stammdaten** - subfolder
 - **messstellen_alle.csv** - file
 
 Secondly, have all the py files in the same directory root: `forecast.py`, `add_exogenous.py`, `preprocess_temp.py`, `recursive_temp_pred.py`, `use_functions.py`

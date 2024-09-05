@@ -9,7 +9,7 @@ Have all the 9 regions (if you choose to work with a single or selected regions,
 - **Stammdaten** - subfolder
 - **messstellen_alle.csv** - file
 
-Secondly, have all the py files in the same directory root: `forecast.py`, `add_exogenous.py`, `preprocess_temp.py`, `recursive_temp_pred.py`, `use_functions.py`
+Secondly, have all the py files in one directory root: `forecast.py`, `add_exogenous.py`, `preprocess_temp.py`, `recursive_temp_pred.py`, `use_functions.py`
 
 ## Dependencies
 

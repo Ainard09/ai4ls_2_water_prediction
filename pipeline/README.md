@@ -2,7 +2,7 @@
 
 ### Dataset and File
 
-Have all the 9 regions (if you choose is to work with a single or selected regions, please proceeds with the same step) datasets in a **folder** with the corresponding sub-folders. These are the required files for each region:
+Have all the 9 regions (if you choose to work with a single or selected regions, please proceeds with the same step) datasets in a **folder** with the corresponding sub-folders. These are the required files for each region:
 
 - **Grundwasserstand-Monatsmittel** - folder
 - **Grundwassertemperatur-Monatsmittel** - folder

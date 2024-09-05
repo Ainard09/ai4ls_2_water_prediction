@@ -17,7 +17,7 @@ Create a python virtual environment and `pip install skforecast scikit-learn` wi
 
 ## Run Code
 
-The code simply takes the location ID and the region data directory to the targeted location ID, saving the output predictions of 26 horizons into the future in a csv file.
+The code simply takes the location ID and the region data directory path to the targeted location ID, saving the output predictions of 26 horizons into the future in a csv file.
 
 From cmd line, run the `forecast.py` follow by other two arguments.
 A typical example:

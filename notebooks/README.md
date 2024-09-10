@@ -51,7 +51,7 @@ Recursively forecast the 26 months for all the givien test data.
 
 **Notes**:
 
-Calender and climate features were introduced to effectively help the model to capture underlying patterns in the dataset: **month, year, quarter, season, weather, cyclical_features**.
+Calender and climate features were introduced to effectively help the model to capture underlying patterns in the dataset: **month, year, quarter, season, weather, cyclical_features**. The weather data were sourced from
 
 Similarly, the rolling mean, max, min for temperature were also included to retain correlation and patterns within the temperature values as we progress into the future. Moving forward, we defined feature interactions amongs the exogenous features to help the model capture the patterns between features.
 
@@ -72,3 +72,9 @@ Similarly, the rolling mean, max, min for temperature were also included to reta
 **Notes**:
 
 Using HistGradientBoostRegressor. The populated template and smape score results are stored in the results folder.
+
+## Summary
+
+Overall, the forecast model shows high performaning metric values on Symmentric Mean Percentage Error (SMAPE) for all the 487 geographical locations. The SMAPE values are all below 1%, indicating high accuracy of the model in predicting the 26 horizons. Despite the differences in irregularity of seasonal trends, correlations of groundwater levels, the machine learning pipeline could take any data (location) within the ehdy dataset with time series values of groundwater levels up until 2021 and give robust forecast into the future.
+
+Future investigations would be to look into climate data that could help the model capture patterns and improve forecast accuracy. Although, the dearth of temperature data on some locations forced us to randomly search for neighbouring area temperature values to help improve the model's performance. Availability of other climate data (e.g precipitation, surface temperature) for all the geographical locations will have profound impact on the model performance.

@@ -1,6 +1,6 @@
 ## Motivations
 
-The sole objective of this projective is to build a machine learning pipeline designed to forecast monthly average groundwater levels of given geographical locations in Austria with 26 months horizon into the future.
+The sole objective of this project is to build a machine learning pipeline designed to forecast monthly average groundwater levels of given geographical locations in Austria with 26 months horizon into the future.
 
 ## Dataset
 

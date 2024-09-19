@@ -51,7 +51,7 @@ Recursively forecast the 26 months for all the givien test data.
 
 **Notes**:
 
-Calender and climate features were introduced to effectively help the model to capture underlying patterns in the dataset: **month, year, quarter, season, weather, cyclical_features**. The weather data were sourced from
+Calender and climate features were introduced to effectively help the model to capture underlying patterns in the dataset: **month, year, quarter, season, weather, cyclical_features**. The weather and season data were sourced from [Weather spark](https://weatherspark.com/y/75391/Average-Weather-in-Salzburg-Austria-Year-Round).
 
 Similarly, the rolling mean, max, min for temperature were also included to retain correlation and patterns within the temperature values as we progress into the future. Moving forward, we defined feature interactions amongs the exogenous features to help the model capture the patterns between features.
 

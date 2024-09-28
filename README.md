@@ -1,6 +1,6 @@
 # AI4LS 2 Water Prediction
 
-## [LS AI2] CTeam - Water Prediction
+**Project Name**: [LS AI2] CTeam - Water Prediction
 - Azeez Liadi (Liadiazeez3@gmail.com)
 - Xinyue Gao (xinyue.gao2000@outlook.com)
 - Omar Laham (p.omarlahham@gmail.com)

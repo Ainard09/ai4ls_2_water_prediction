@@ -13,7 +13,7 @@ Secondly, have all the py files in one directory root: `forecast.py`, `add_exoge
 
 ## Dependencies
 
-Create a python virtual environment and `pip install skforecast scikit-learn` within the venv.
+Create a python virtual environment and `pip install skforecast scikit-learn` `matplotlib` within the venv.
 
 ## Run Code
 
